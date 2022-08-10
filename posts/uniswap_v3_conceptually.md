@@ -15,7 +15,7 @@ approach to UniV3.
 ### Sections
 
 - [From traditional exchanges to blockchain][trad-to-block]
-- Uniswap's constant product formula
+- [Uniswap's constant product formula][ucpf]
 - Novel concepts of Uniswap V3
 
 ## From traditional exchanges to blockchain
@@ -73,6 +73,26 @@ selectively frozen at will of the issuer.
 This brings us to the issue at hand: provided these tokens exist, how do we go
 about making a decentralized exchange over it?
 
+## Uniswap's constant product formula
+
+An AMM's value to an outsider is evident. Anything that takes some token and is
+proven to return a specific amount of another token may serve to exchange
+tokens. There's also the posibility of arbitraging: if the algorithm provides
+an outdated price that's too cheap with respect to the market, then one can buy
+cheap to the AMM and sell expensive outside.
+
+This last “advantage” to outsiders may actually be seen as predatorial, and one
+of the main issues for an AMM. A poor algorithm may lead to people draining the
+AMM's funds if incentivized to do so.
+
+Luckily, this problem has been proven (both theoretically and in practice) to
+have a very neat solution (even, classes of solutions). Rather than introduce
+the solution step by step, let's jump right into the solution and see how it
+works!
+
+$equation_test$
+
 [v3swp]: https://uniswap.org/whitepaper-v3.pdf
 [trad-to-block]: #from-traditional-exchanges-to-blockchain
 [erc20]: https://ethereum.org/en/developers/docs/standards/tokens/erc-20/
+[ucpf]: #uniswaps-constant-product-formula
