@@ -99,15 +99,15 @@ the same after the transaction as it was before.
 
 Quick example. Suppose our liquidity pool has the initial values
 `(x, y) = (10, 1)`, and someone wants to extract `5 X` in exchange for some
-`Y`. After the extraction, the amount of `X` will be `xf = 5`. How much `Y`
-must be added? well, the product `x.y` is `10.1=10` initially, and it will be
-`5.y` at the end. We can easily see that if `y=2` in the previous equation,
-then the product `5.2=10`, just as it was before. So, we must provide `1 Y` in
-order to extract `5 X`.
+`Y`. After the extraction, the amount of `X` will be `x = 5`. How much `Y`
+must be added? well, the product `x . y` is `10 . 1 = 10` initially, and it
+will be `5 . y` at the end. We can easily see that if `y = 2` in the previous
+equation, then the product `5 . 2 = 10`, just as it was before. So, we must
+provide `1 Y` in order to extract `5 X`.
 
 The most important adavantage of this solution is that the price of the tokens
 is updated automatically according to supply. For example, the above
-transaction occurred at a price of `.5 Y/X`. But if I wanted to buy `9 X`
+transaction occurred at a price of `0.5 Y/X`. But if I wanted to buy `9 X`
 instead, I'd have to provide `9 Y`, so it would happen at a price of `1 Y/X`,
 double as before.
 
