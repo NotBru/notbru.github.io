@@ -90,7 +90,34 @@ have a very neat solution (even, classes of solutions). Rather than introduce
 the solution step by step, let's jump right into the solution and see how it
 works!
 
-$equation_test$
+First of all, our AMM will provide liquidity between a pair at the time. We'll
+call these tokens `X` and `Y`. Since we're providing liquidity, we need to have
+reserves of these readily available for people to exchange; let us call `x` and
+`y` the amount we have of each. Then, we'll allow people to make any change to
+these reserves they'd like, as long as the product between these reserves is
+the same after the transaction as it was before.
+
+Quick example. Suppose our liquidity pool has the initial values
+`(x, y) = (10, 1)`, and someone wants to extract `5 X` in exchange for some
+`Y`. After the extraction, the amount of `X` will be `xf = 5`. How much `Y`
+must be added? well, the product `x.y` is `10.1=10` initially, and it will be
+`5.y` at the end. We can easily see that if `y=2` in the previous equation,
+then the product `5.2=10`, just as it was before. So, we must provide `1 Y` in
+order to extract `5 X`.
+
+The most important adavantage of this solution is that the price of the tokens
+is updated automatically according to supply. For example, the above
+transaction occurred at a price of `.5 Y/X`. But if I wanted to buy `9 X`
+instead, I'd have to provide `9 Y`, so it would happen at a price of `1 Y/X`,
+double as before.
+
+And this happens in such a way that the pool cannot be drained completely, too.
+This means that bad pricing is *corrected* by arbitreurs, only to the point
+where the price becomes precisely the market one. From then onwards, there's no
+incentive to buy further, and the liquidity pool now operates at a proper
+price.
+
+From here onwards, I'll be resorting to a wonderful graph.
 
 [v3swp]: https://uniswap.org/whitepaper-v3.pdf
 [trad-to-block]: #from-traditional-exchanges-to-blockchain
