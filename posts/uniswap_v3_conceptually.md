@@ -117,7 +117,9 @@ where the price becomes precisely the market one. From then onwards, there's no
 incentive to buy further, and the liquidity pool now operates at a proper
 price.
 
-From here onwards, I'll be resorting to a wonderful graph.
+I'll find it easier to explain this with some plots! If you're unfamiliar with
+what's coming, bear with it for a second. It may be hard to understand at
+first, but it's a great explanatory tool.
 
 [v3swp]: https://uniswap.org/whitepaper-v3.pdf
 [trad-to-block]: #from-traditional-exchanges-to-blockchain
