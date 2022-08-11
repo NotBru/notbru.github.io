@@ -121,7 +121,10 @@ I'll find it easier to explain this with some plots! If you're unfamiliar with
 what's coming, bear with it for a second. It may be hard to understand at
 first, but it's a great explanatory tool.
 
+![Alt text][fig00]
+
 [v3swp]: https://uniswap.org/whitepaper-v3.pdf
 [trad-to-block]: #from-traditional-exchanges-to-blockchain
 [erc20]: https://ethereum.org/en/developers/docs/standards/tokens/erc-20/
 [ucpf]: #uniswaps-constant-product-formula
+[fig00]: https://notbru.github.io/posts/uniswap_v3_conceptually/fig00.png
