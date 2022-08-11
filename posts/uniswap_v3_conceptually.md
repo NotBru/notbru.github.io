@@ -16,6 +16,11 @@ approach to UniV3.
 
 - [From traditional exchanges to blockchain][trad-to-block]
 - [Uniswap's constant product formula][ucpf]
+  - [The formula][#the-formula]
+  - [Price][#price]
+  - [Liquidity][#liquidity]
+  - [Price and liquidity visually][#plv]
+- [The *actual* uniswap formula][tauf]
 - Novel concepts of Uniswap V3
 
 ## From traditional exchanges to blockchain
@@ -75,6 +80,8 @@ about making a decentralized exchange over it?
 
 ## Uniswap's constant product formula
 
+### The formula
+
 An AMM's value to an outsider is evident. Anything that takes some token and is
 proven to return a specific amount of another token may serve to exchange
 tokens. There's also the posibility of arbitraging: if the algorithm provides
@@ -120,11 +127,123 @@ price.
 I'll find it easier to explain this with some plots! If you're unfamiliar with
 what's coming, bear with it for a second. It may be hard to understand at
 first, but it's a great explanatory tool.
-
 ![Alt text][fig00]
+
+In the graph, the horizontal displacement represents amount of `X` in the pool,
+whereas the vertical one represents amount of `Y` in the pool. We can identify
+any state our pool can be in through an `(x, y)` pair, which would be a point
+in the graph. The bold line a set where all points `(x, y)` satisfy
+`x . y = k`, with `k` a constant. In our example with numbers above, `k` would
+be `10`, but whatever the value of `k`, the graph looks overall like that.
+
+The dots represent posible states of the pool. Imagine I find the pool in the
+state represented by the blue dot. I'm free to move the dot around, as long as
+I keep it over the curve. The green dot then represents a posible final state,
+after I perform a change in the state of the pool. `Δx` and `Δy` represent the
+changes in `x` and `y`, the reserves of each token. In this transaction, we can
+see I increased the amount of `X` and reduced the amount of `Y` in the pool,
+meaning I bought `Y` in exchange for `X`.
+
+One of the very important notions that this kind of pool satisfy, is that of
+path independence. The pool has no proprietary (we'll talk about how it gets
+its reserves shortly). It's just an entity of the aether, and people are free
+to alter its state to their convenience, as long as one simple rule is
+followed, and reap the benefits of “conservation of tokens”.
+
+### Price
+
+Now, there are two important notions that we'll need to define here. Namely,
+“current price” and “liquidity”. But we've just seen that the exchange's price
+depends on the size of the operation! Perhaps I exchange an euro and the price
+is `1`, but if the amount of euros I want to exchange is close to the amount of
+euros in the pool, the price may jump to infinity!
+
+Yep. The price depends on the size of the transaction. But, as the name “pool”
+implies, the pool is supposed to be a gigantic reserve of tokens. So, clients
+that want modest exchanges shouldn't really reach a situation where the prices
+go upwards to infinity. How is price computed exactly then? why, with
+infinitesimals.
+
+Suppose I find a pool with constant `x . y = k`, and want to buy `X`. Lets call
+the amount of `x` we want `dx`, and the amount of `y` we'll have to incorporate
+`dy`. Our operation will take the pool from a state `(x, y)` to a state
+`(x - dx, y + dy)`.
+
+But from the constant product constraint, `dx` and `dy` aren't arbitrary. We
+must chose them so that `(x - dx)(y + dy) = k`. A simple application of the
+distributive property, and the magic fact that `dx . dy` pales in comparison to
+`dx` and to `dy` if they're both very very small, leads us to our result.
+
+The price, for small changes `dx` and `dy`, of `X`, is `dy / dx = y / x`. What
+a wonderful result! It's simply the ratio of suply between `Y` and `X`.
+
+As a quick detour in our discussions, it's worth mentioning that price changes
+lead to impermanent loss. It can be proven that if a pool is initalized at a
+price in agreement with the market, and the market price changes, then the
+worth of the pool (calculated as the sum of its assets in units of any of the
+tokens) strictly diminishes. We'll talk more about that later.
+
+Now, what constitutes a small exchange depends on how much of both `x` and `y`
+there is, really. This leads us to the concept of “liquidity”. This quantity is
+most precisely defined in Uniswap V3, where things get *reeeal*.
+
+### Liquidity
+
+To get an idea why liquidity will be defined as it will, let us notice that
+supplying liquidity requires increasing `k`. Why? because the *rate* of change
+of the price `p` with respect to changes `dx` is proportional to `1 / sqrt(k)`,
+where `sqrt` stands for “square root of”. This means the higher `k` is, the
+smaller the change in price will be.
+
+We could thus simply define liquidity as `k`. Or, as already suggested by the
+rate of change of price, as its square root. But any monotonously increasing
+function of `k` suffices really. So, how do we pick one among the infinite
+posibilities?
+
+Well, there's a second nice property that `sqrt(k)` satisfies that is crucial.
+Namely, it is *linear* on the amount of token that gets incorporated.
+
+To see this, let us consider a pool that's initialized at a certain value of
+`k0 = x . y` and at a certain price `p = y / x`. When providing liquidity at
+the current price, with a proper increase `Δx` and `Δy`, it can be shown that
+`k` changes from `k0` to `k1 = (sqrt(k0) + sqrt(Δx . Δy)) ^ 2`. But! if instead
+of speaking about `k0` and `k1` we spoke about `L0 = sqrt(k0)` and
+`L1 = sqrt(k1)`, we would say that liquidity `L` goes from `L0` to
+`L1 = L0 + ΔL`, where `L0 = sqrt(x . y)` and `ΔL = sqrt(Δx . Δy)`.
+
+By this definition of liquidity, two equal provisions of tokens represent the
+same liquidity increase each, independent of their order. Any other definition
+of liquidity, such as `L = k`, would lead to odd state-dependent changes in
+liquidity for the very same operation!
+
+Furthermore, the linearity property guarantees that if someone provides a given
+amount of `X` and `Y`, and I provide a fraction of it, the differences in
+liquidity will be related by this very same relationship.
+
+## Price and liquidity visually
+
+Uniswap V2 is moved by two kind of actors. I'll call them “swappers” and
+“liquidity providers”. Liquidity providers increase liquidity at constant
+price, and swappers “swap” between tokens at constant liquidity, moving the
+price at its wake.
+
+You've already seen what constant liquidity surfaces look like. It's the
+painted curve in the first figure we've seen. But what do constant price
+surfaces look like? Well, those surfaces are described by `p = y / x`, or to
+put it another way, `y = p . x`. They're straight lines through the origin!
+
+This graph shows both constant liquidity curves (solid lines) and constant
+price curves (dashed lines).
+
+![Alt text][fig01]
+
+## The *actual* Uniswap formula
 
 [v3swp]: https://uniswap.org/whitepaper-v3.pdf
 [trad-to-block]: #from-traditional-exchanges-to-blockchain
 [erc20]: https://ethereum.org/en/developers/docs/standards/tokens/erc-20/
 [ucpf]: #uniswaps-constant-product-formula
 [fig00]: https://notbru.github.io/posts/uniswap_v3_conceptually/fig00.png
+[fig00]: https://notbru.github.io/posts/uniswap_v3_conceptually/fig01.png
+[plv]: #price-and-liquidity-visually
+[tauf]: #the-actual-uniswap-formula
