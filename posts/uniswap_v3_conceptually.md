@@ -16,12 +16,13 @@ approach to UniV3.
 
 - [From traditional exchanges to blockchain][trad-to-block]
 - [Uniswap's constant product formula][ucpf]
-  - [The formula][#the-formula]
-  - [Price][#price]
-  - [Liquidity][#liquidity]
-  - [Price and liquidity visually][#plv]
-- [The *actual* uniswap formula][tauf]
+  - The formula
+  - Price
+  - Liquidity
+  - Price and liquidity visually
+  - The *actual* uniswap formula
 - Novel concepts of Uniswap V3
+  - The problem
 
 ## From traditional exchanges to blockchain
 
@@ -237,7 +238,31 @@ price curves (dashed lines).
 
 ![Alt text][fig01]
 
-## The *actual* Uniswap formula
+If you're a liquidity provider, you'll move along the dashed lines to take the
+pool to higher liquidity states. If you're a swapper, you'll move along the
+solid lines to exchange a few tokens, altering the price.
+
+## The *actual* Uniswap V2 formula
+
+Iiiit's not technically *a formula*. But, what incentives do liquidity
+providers really have? Uniswap as we've already seen would simply have their
+funds moved around, and provide nothing in return. The best that can happen is
+you feel happy with yourself for helping other people play around with money.
+
+But Uniswap doesn't apply this “constant product formula” as is. Rather, it
+takes some profit from the input, which is the “fee”. So, whenever you're
+actually swapping, the token that you provide has this fee substracted before
+actually verifying that the new `x` and `y` values reached satisfy the
+constraint.
+
+Further, of course exact equality is not checked, but rather the inequality
+`x . y >= L^2`. You're free to provide liquidity as part of the operation!
+
+With those two in mind, each swap actually increases the pool's liquidity
+slightly, which is then offered to the liquidity providers as a sacrifice
+(others may call it revenue). Thus, you're incentivized to be a liquidity
+provider whenever you expect the money you collect from fees to offset the
+losses from possible price movements.
 
 [v3swp]: https://uniswap.org/whitepaper-v3.pdf
 [trad-to-block]: #from-traditional-exchanges-to-blockchain
@@ -245,5 +270,3 @@ price curves (dashed lines).
 [ucpf]: #uniswaps-constant-product-formula
 [fig00]: https://notbru.github.io/posts/uniswap_v3_conceptually/fig00.png
 [fig00]: https://notbru.github.io/posts/uniswap_v3_conceptually/fig01.png
-[plv]: #price-and-liquidity-visually
-[tauf]: #the-actual-uniswap-formula
