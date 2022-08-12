@@ -20,9 +20,9 @@ approach to UniV3.
   - Price
   - Liquidity
   - Price and liquidity visually
-  - The *actual* uniswap formula
-- Novel concepts of Uniswap V3
-  - The problem
+  - The *actual* Uniswap formula
+- [Nobel concepts of Uniswap V3][uv3]
+  - The problem with Uniswap V2
 
 ## From traditional exchanges to blockchain
 
@@ -141,8 +141,8 @@ in the graph. The bold line a set where all points `(x, y)` satisfy
 be `10`, but whatever the value of `k`, the graph looks overall like that.
 
 The dots represent posible states of the pool. Imagine I find the pool in the
-state represented by the blue dot. I'm free to move the dot around, as long as
-I keep it over the curve. The green dot then represents a posible final state,
+state represented by the upper dot. I'm free to move the dot around, as long as
+I keep it over the curve. The lower dot then represents a posible final state,
 after I perform a change in the state of the pool. `Δx` and `Δy` represent the
 changes in `x` and `y`, the reserves of each token. In this transaction, we can
 see I increased the amount of `X` and reduced the amount of `Y` in the pool,
@@ -247,7 +247,7 @@ If you're a liquidity provider, you'll move along the dashed lines to take the
 pool to higher liquidity states. If you're a swapper, you'll move along the
 solid lines to exchange a few tokens, altering the price.
 
-## The *actual* Uniswap V2 formula
+### The *actual* Uniswap V2 formula
 
 Iiiit's not technically *a formula*. But, what incentives do liquidity
 providers really have? Uniswap as we've already seen would simply have their
@@ -269,7 +269,153 @@ slightly, which is then offered to the liquidity providers as a sacrifice
 provider whenever you expect the money you collect from fees to offset the
 losses from possible price movements.
 
+It's also worth noting that, with this “loss” of input token, it's now
+impractical to just play around. Going back and forth would be impossible, and
+the oscillations would eventually die out.
+
+## Nobel concepts of Uniswap V3
+
+### The problem with Uniswap V2
+
+Uniswap V2 distributes liquidity uniformly across al possible prices. But to
+get a sense of what we mean by this, let's first go for an example.
+
+Let's first assume we're dealing with coins without much volatility. For
+example, `DAI` and `LUSD`, which are both pegged to the same value in dollars.
+Even though they do have some fluctuations, they're known to oscillate around
+`1` very consistently.
+
+Now, suppose you're a trader who wants to swap `1000 DAI` for about
+`1000 LUSD`. Now, suppose the fee is `3 / 1000` (for stablecoins these are
+lower, but nevermind that), so you're okay with receiving `997 LUSD`. What's
+more, you know you may move the price a little, so you decide you're okay with
+a little less than that even.
+
+Now, suppose the liquidity pool has a `10 kDAI` and `10 kLUSD`. This amounts to
+a current price of precisely `1`, and liquidity `10000`. But the swapped amount
+is so big in comparison, that the actual swap would yield about `907 LUSD`.
+This trader would have to swap small amounts, and wait each time for someone to
+swap about the same amount in the opposite direction so that the price of their
+swaps are about the actual prices. And you don't even need a big trader for
+this. A small run of `5` people who wanted to trade `2 kDAI` each would have
+the same effect, except that after a few swaps the price would have changed so
+much that the transactions would actually revert due to slippage constraints.
+
+But the pool very much has the posibility to handle this one “big” transaction.
+We know for a fact that stablecoins, when they don't fail, will really remain
+at about the same exchange rate. So, it wouldn't really hurt to allow for the
+transactions to happen at a higher “ficticious” liquidity. We know noone would
+probably want to exchange `DAI` for `LUSD` at a rate of `0.9` nor viceversa
+anyways.
+
+### Concentrated liquidity
+
+So, with this in mind, we decide to construct a pool that behaves like a
+Uniswap V2 pool as long as it has reserves to do so, but we plan to run out of
+them when a certain limit is reached. For instance, when the rate of exchange
+of `DAI` to `LUSD` reaches `0.9`.
+
+Our pool will have a “ficticious” liquidity `L` such that a swap that takes
+`10 kLUSD` from it will take the price `p` to `0.9`. Our imaginary pool has
+imaginary reserves `x` and `y` such that these numbers match, where `X` is the
+input token (`DAI`) and `Y` is the output token (`LUSD`).
+
+To help us with this, we'll be counting on equations `x . y = L^2` and
+`y / x = p`. Our initial state is then characterized by `x0 . y0 = L^2` and
+`y0 / x0 = p0` and, after variations `Δx` and `Δy` on reserves, we arrive to a
+final state where `(x0 + Δx)(y0 - Δy) = L^2` and `(y0 - Δy)/(x0 - Δx) = p1`.
+
+These are just the general equations for movements of Uniswap V2 balances. Now,
+we shall deduce what ficticious values for those coordinates would be needed so
+that, after `1 kLUSD` has been taken from the pool, the price drops from `1` to
+`0.9`.
+
+To do this, we simply define `p0 = 1`, `Δy = 1 k`, and `p1 = 0.9`. I'll leave
+the intermediate steps out, since this is a simple set of equations. What we do
+find after that is that liquidity should be about `195 k`, about `20` times
+higher as before. With this new liquidity value, the problematic transaction
+above would yield `991 LUSD`, at a much more acceptable rate of `0.99`, with
+the same capital.
+
+What happens if people *do* swap until the limiting price is reached? Well,
+liquidity has been drained empty, and of course we can't continue providing
+liquidity.
+
+Notice that this liquidity provision covers the price range `1` to `0.9`, which
+will be used if people buy `LUSD`. We can use the so far unmentioned `DAI` to
+cover for precisely the opposite transactions, until the price of `DAI` becomes
+`0.9`. When referring to pools, an implicit order is defined, and we speak of
+the price as referring to one specific token. Since we started speaking about
+buying `LUSD`, we may speak about the converse situation by saying that the
+price reaches `1 / 0.9`, which is about a `1.11` price of `LUSD`.
+
+This pool now operates between prices `0.9` and `1.11`, and we can 
+visualize it like this:
+
+<img
+    src="https://notbru.github.io/posts/uniswap_v3_conceptually/fig02.png"
+    width="400"/>
+
+The dot here represents the state of the pool before any transactions. The
+dashed lines represent a “collapse to 0” that happens at the borders. We've
+confined movement between a set of *ticks*, but in exchange we've gained a
+substantial liquidity bump. Our money gets used for swaps at a price that we
+know will be needed, and no money is reserved for swaps at prices that we know
+will only occur at the collapse of mankind, or worse, at the collapse of
+Ethereum.
+
+Now, I find it useful to highlight that providing liquidity to one of the sides
+of the current price only requires providing the token that would get taken
+from the pool in order to move that way. Intervals in this sense are
+*decomposable*, in that you can think of any interval as composed by as many
+sub intervals as needed, each providing the required assets so as to cover
+price changes from one extremum to the other.
+
+In Uniswap V2, when swapping, there was a connected curve defined by the
+constancy of a state function that we called “liquidity”. This is true so far
+too, except that this connected curve has been bounded. And we indeed
+constructed this curve by thinking of it in terms of a side to the right of
+the current price, and a side to the left.
+
+Now, how do we get people to agree which range to provide liquidity on? we just
+don't! Now that we know that we can think things in terms of price and
+liquidity, we simply let people decide where they want to allocate liquidity
+and, since liquidity is linear (i.e., additive) for a given price, overlapping
+liquidities simply add on top of each other.
+
+For example, suppose liquidity providers agree that `1` is the preferential
+price between `DAI` and `USDT`, but they disagree on the deviations they
+expect from this equilibrium point. Some may want to provide liquidity for
+deviations of up to `5%`, others to `10%`, maybe some to `15%`. We would then
+find that the pool has more liquidity at `1`, but then the segments decrease
+until there's no more liquidity. Such a pool would look like this
+
+<img
+    src="https://notbru.github.io/posts/uniswap_v3_conceptually/fig03.png"
+    width="400"/>
+
+Actual liquidity pools aren't symmetric at all, nor are they centered around 1,
+of course. You can check liquidity distribution (in a way more understandable
+`(price, liquidity)` graph) for any pool by going to UniV3's [app][uv3app] and,
+after having connected your wallet, accessing the “add liquidity” sections.
+
+These are humble screenshots of the liquidity distribution for the `DAI<->LUSD`
+and `LUSD<->WETH` pools. It's worth mentioning that the prices you can use for
+your positions are discretized, and they aren't equidistant in price space, but
+they are in logarithmic price space.
+
+If you're interested in digging the details, you're now hopefully more prepared
+to go into Uniswap's whitepaper or, heck, feel free to check they're code at
+GitHub! (it's open source uwu).
+
+Do also feel free to contact me to give me any kind of feedback <3.
+
+Many thanks to Capu also, for giving me the motivation to go out of my way and
+make a post about this. He liked the “spiderweb graph” above very much.
+
 [v3swp]: https://uniswap.org/whitepaper-v3.pdf
 [trad-to-block]: #from-traditional-exchanges-to-blockchain
 [erc20]: https://ethereum.org/en/developers/docs/standards/tokens/erc-20/
 [ucpf]: #uniswaps-constant-product-formula
+[uv3]: #nobel-concepts-of-uniswap-v3
+[uv3app]: https://app.uniswap.org
