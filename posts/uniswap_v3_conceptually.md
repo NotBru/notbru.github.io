@@ -131,7 +131,7 @@ first, but it's a great explanatory tool.
 
 <img
     src="https://notbru.github.io/posts/uniswap_v3_conceptually/fig00.png"
-    width="200"/>
+    width="400"/>
 
 In the graph, the horizontal displacement represents amount of `X` in the pool,
 whereas the vertical one represents amount of `Y` in the pool. We can identify
