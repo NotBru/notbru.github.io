@@ -269,4 +269,4 @@ losses from possible price movements.
 [erc20]: https://ethereum.org/en/developers/docs/standards/tokens/erc-20/
 [ucpf]: #uniswaps-constant-product-formula
 [fig00]: https://notbru.github.io/posts/uniswap_v3_conceptually/fig00.png
-[fig00]: https://notbru.github.io/posts/uniswap_v3_conceptually/fig01.png
+[fig01]: https://notbru.github.io/posts/uniswap_v3_conceptually/fig01.png

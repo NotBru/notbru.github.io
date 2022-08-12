@@ -27,4 +27,4 @@ for p in ps:
     y = p * x
     ax.plot(x, y, color=(.2, .2, .2), ls='--')
 
-fig.savefig("fig01.png")
+fig.savefig("fig01.png", dpi=400)
