@@ -129,7 +129,9 @@ I'll find it easier to explain this with some plots! If you're unfamiliar with
 what's coming, bear with it for a second. It may be hard to understand at
 first, but it's a great explanatory tool.
 
-![Alt text][fig00]
+<img
+    src="https://notbru.github.io/posts/uniswap_v3_conceptually/fig00.png"
+    width="200"/>
 
 In the graph, the horizontal displacement represents amount of `X` in the pool,
 whereas the vertical one represents amount of `Y` in the pool. We can identify
