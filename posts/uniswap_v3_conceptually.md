@@ -128,6 +128,7 @@ price.
 I'll find it easier to explain this with some plots! If you're unfamiliar with
 what's coming, bear with it for a second. It may be hard to understand at
 first, but it's a great explanatory tool.
+
 ![Alt text][fig00]
 
 In the graph, the horizontal displacement represents amount of `X` in the pool,
