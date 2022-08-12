@@ -399,6 +399,18 @@ of course. You can check liquidity distribution (in a way more understandable
 `(price, liquidity)` graph) for any pool by going to UniV3's [app][uv3app] and,
 after having connected your wallet, accessing the “add liquidity” sections.
 
+It is also important to highlight here that the swap's result *doesn't
+correspond* to the difference in *virtual* reserves on the plots shown above.
+It corresponds to the actual differences in reserves. But you can obtain them
+from the plotted curves by adding the swapped amounts for the infinitesimal
+displacements along the connected curves, disregarding the jump of liquidity
+in doing so.
+
+What you're essentially doing by swapping is changing the price little by
+little, consuming the reserves ahead and adding (little more than) the reserves
+that are needed behind so that the pool can continue operating in the same
+state you found it before the swap.
+
 If you're interested in digging the details, you're now hopefully more prepared
 to go into Uniswap's whitepaper or, heck, feel free to check they're code at
 GitHub! (it's open source uwu).
