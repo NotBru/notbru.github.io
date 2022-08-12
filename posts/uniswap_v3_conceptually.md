@@ -399,11 +399,6 @@ of course. You can check liquidity distribution (in a way more understandable
 `(price, liquidity)` graph) for any pool by going to UniV3's [app][uv3app] and,
 after having connected your wallet, accessing the “add liquidity” sections.
 
-These are humble screenshots of the liquidity distribution for the `DAI<->LUSD`
-and `LUSD<->WETH` pools. It's worth mentioning that the prices you can use for
-your positions are discretized, and they aren't equidistant in price space, but
-they are in logarithmic price space.
-
 If you're interested in digging the details, you're now hopefully more prepared
 to go into Uniswap's whitepaper or, heck, feel free to check they're code at
 GitHub! (it's open source uwu).
