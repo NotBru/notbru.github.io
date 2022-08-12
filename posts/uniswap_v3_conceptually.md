@@ -239,7 +239,9 @@ put it another way, `y = p . x`. They're straight lines through the origin!
 This graph shows both constant liquidity curves (solid lines) and constant
 price curves (dashed lines).
 
-![Alt text][fig01]
+<img
+    src="https://notbru.github.io/posts/uniswap_v3_conceptually/fig01.png"
+    width="400"/>
 
 If you're a liquidity provider, you'll move along the dashed lines to take the
 pool to higher liquidity states. If you're a swapper, you'll move along the
@@ -271,5 +273,3 @@ losses from possible price movements.
 [trad-to-block]: #from-traditional-exchanges-to-blockchain
 [erc20]: https://ethereum.org/en/developers/docs/standards/tokens/erc-20/
 [ucpf]: #uniswaps-constant-product-formula
-[fig00]: https://notbru.github.io/posts/uniswap_v3_conceptually/fig00.png
-[fig01]: https://notbru.github.io/posts/uniswap_v3_conceptually/fig01.png
