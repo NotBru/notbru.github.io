@@ -19,8 +19,8 @@ l = 1
 x = np.linspace(1/1.5, 1.5, 128)
 y = l ** 2 / x
 ax.plot(x, y, color=(0, 0, 0), ls='-')
-ax.plot([0, x[0]], [0, y[0]], color=(.2, .2, .2), ls='--')
-ax.plot([0, x[-1]], [0, y[-1]], color=(.2, .2, .2), ls='--')
+ax.plot([0, x[0]], [0, y[0]], color=(.2, .2, .2), ls='--', lw=.8)
+ax.plot([0, x[-1]], [0, y[-1]], color=(.2, .2, .2), ls='--', lw=.8)
 plot_dot(ax, 1, 1, color=(.6, .3, .2))
 
 fig.savefig("fig02.png", dpi=400)

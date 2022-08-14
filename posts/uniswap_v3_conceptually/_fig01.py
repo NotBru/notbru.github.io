@@ -19,12 +19,12 @@ ls = np.linspace(0, 1, 5)[1:]
 for l in ls:
     x = np.linspace(0, 1, 128)
     y = l ** 2 / x
-    ax.plot(x, y, color=(.2, .2, .2), ls='-')
+    ax.plot(x, y, color=(.5, .5, .5), ls='-', lw=.8)
 
 ps = 2 ** np.linspace(-3, 3, 5)
 for p in ps:
     x = np.linspace(0, 1, 128)
     y = p * x
-    ax.plot(x, y, color=(.2, .2, .2), ls='--')
+    ax.plot(x, y, color=(.3, .3, .3), ls='--', lw=.8)
 
 fig.savefig("fig01.png", dpi=400)
