@@ -133,12 +133,12 @@ first, but it's a great explanatory tool.
     src="https://notbru.github.io/posts/uniswap_v3_conceptually/fig00.png"
     width="400"/>
 
-In the graph, the horizontal displacement represents amount of `X` in the pool,
+In the plot, the horizontal displacement represents amount of `X` in the pool,
 whereas the vertical one represents amount of `Y` in the pool. We can identify
 any state our pool can be in through an `(x, y)` pair, which would be a point
-in the graph. The bold line a set where all points `(x, y)` satisfy
+in the plot. The bold line a set where all points `(x, y)` satisfy
 `x . y = k`, with `k` a constant. In our example with numbers above, `k` would
-be `10`, but whatever the value of `k`, the graph looks overall like that.
+be `10`, but whatever the value of `k`, the plot looks overall like that.
 
 The dots represent posible states of the pool. Imagine I find the pool in the
 state represented by the upper dot. I'm free to move the dot around, as long as
@@ -236,7 +236,7 @@ painted curve in the first figure we've seen. But what do constant price
 surfaces look like? Well, those surfaces are described by `p = y / x`, or to
 put it another way, `y = p . x`. They're straight lines through the origin!
 
-This graph shows both constant liquidity curves (solid lines) and constant
+This plot shows both constant liquidity curves (solid lines) and constant
 price curves (dashed lines).
 
 <img
@@ -396,7 +396,7 @@ until there's no more liquidity. Such a pool would look like this
 
 Actual liquidity pools aren't symmetric at all, nor are they centered around 1,
 of course. You can check liquidity distribution (in a way more understandable
-`(price, liquidity)` graph) for any pool by going to UniV3's [app][uv3app] and,
+`(price, liquidity)` plot) for any pool by going to UniV3's [app][uv3app] and,
 after having connected your wallet, accessing the “add liquidity” sections.
 
 It is also important to highlight here that the swap's result *doesn't
@@ -418,7 +418,7 @@ GitHub! (it's open source uwu).
 Do also feel free to contact me to give me any kind of feedback <3.
 
 Many thanks to Capu also, for giving me the motivation to go out of my way and
-make a post about this. He liked the “spiderweb graph” above very much.
+make a post about this. He liked the “spiderweb plot” above very much.
 
 [v3swp]: https://uniswap.org/whitepaper-v3.pdf
 [trad-to-block]: #from-traditional-exchanges-to-blockchain
