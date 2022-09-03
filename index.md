@@ -4,7 +4,7 @@
 
 # Notes on my courses
 
-- (Spanish) [Cursito de desarrollo comenzado en 20220903](desarrollo-20220903)
+- (Spanish) [Cursito de desarrollo comenzado en 20220903][desarrollo-20220903]
 
 ## About me
 
