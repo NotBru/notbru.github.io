@@ -32,12 +32,12 @@ about. Feel free to contact me for any change suggestions or, heck, push a
 merge request.
 
 Traditional markets date back to the very first human exchange. Maybe I have a
-pretty stone and the meat you're holding looks tasty, and I'd rather eat your
-meat (*e_e*) than have my stone, and you'd rather have my stone than eat your
-meat. Trade is the essence of all markets.
+pretty stone and the berry you're holding looks tasty, and I'd rather eat your
+berry than have my stone, and you'd rather have my stone than eat your berry.
+Trade is the essence of all markets.
 
 But before money, you'd exchange things with “intrinsic” value only, with the
-dissadvantage that the value of something may be a fraction of something else.
+disadvantage that the value of something may be a fraction of something else.
 Hence money. People learnt that instead of long chains of trades, they may as
 well define something as representing a unit of value and use it as an
 intermediary.
@@ -49,7 +49,7 @@ move) where currency Y is used, you're gonna need someone that wants currency
 X and is willing to pay for it in currency Y.
 
 Hence centralized exchanges. Places where people gather to exchange stuff. Some
-seople realized they can sell the *convenience* of not having to look for
+people realized they can sell the *convenience* of not having to look for
 another party. Those people or entities became *liquidity providers*. Liquidity
 here means the property of your assets of being *usable*. And the way they
 profit is that they exchange X for Y at a price different than they exchange Y
